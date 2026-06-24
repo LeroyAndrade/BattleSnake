@@ -176,17 +176,21 @@ public class BattlesnakeResource {
         int amountOfOtherSnakes = 0;
 
         if (allSnakes != null) {
-            amountOfSnakes = allSnakes.size();
-
             for (Map<String, Object> snake : allSnakes) {
                 String snakeId = (String) snake.get("id");
+                String snakeName = (String) snake.get("name");
 
+                System.out.println("Snake in board:");
+                System.out.println("naam = " + snakeName);
+                System.out.println("id = " + snakeId);
+
+                // Als de id niet hetzelfde is als mijn id, dan = andere snake de vijand
                 if (!snakeId.equals(myId)) {
-                    amountOfOtherSnakes++;
-                    System.out.println("Andere snake gevonden: " + snake.get("name"));
+                    System.out.println("Andere snake gevonden: " + snakeName);
+                } else {
+                    System.out.println("Dit ben ik zelf");
                 }
             }
-        }
 
         return Response.ok(Map.of(
                 "myId", myId,
