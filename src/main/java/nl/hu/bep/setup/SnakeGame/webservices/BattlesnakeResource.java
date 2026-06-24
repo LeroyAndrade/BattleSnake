@@ -105,13 +105,18 @@ public class BattlesnakeResource {
         // Game gebruikt myId om mijn eigen snake over te slaan bij enemy checks.
         List<Map<String, Object>> allSnakes = (List<Map<String, Object>>) board.get("snakes");
 
-        // Even printen om te zien of er andere snakes zijn.
+        // Even printen om te zien welke snake van mij is en welke snake een enemy is.
+        System.out.println("Mijn id = " + myId);
+
         if (allSnakes != null) {
             for (Map<String, Object> snake : allSnakes) {
                 String snakeId = (String) snake.get("id");
+                String snakeName = (String) snake.get("name");
 
-                if (!snakeId.equals(myId)) {
-                    System.out.println("Andere snake gevonden: " + snake.get("name"));
+                if (snakeId.equals(myId)) {
+                    System.out.println("Dit ben ik zelf: " + snakeName);
+                } else {
+                    System.out.println("Andere snake gevonden: " + snakeName);
                 }
             }
         }
@@ -148,7 +153,7 @@ public class BattlesnakeResource {
     }
 
     // Check alle snakes via Bruno.
-    // Dit endpoint wordt niet door Battlesnake zelf gebruikt.
+// Dit endpoint wordt niet door Battlesnake zelf gebruikt.
     @POST
     @Path("debug/snakes")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -176,6 +181,8 @@ public class BattlesnakeResource {
         int amountOfOtherSnakes = 0;
 
         if (allSnakes != null) {
+            amountOfSnakes = allSnakes.size();
+
             for (Map<String, Object> snake : allSnakes) {
                 String snakeId = (String) snake.get("id");
                 String snakeName = (String) snake.get("name");
@@ -184,20 +191,22 @@ public class BattlesnakeResource {
                 System.out.println("naam = " + snakeName);
                 System.out.println("id = " + snakeId);
 
-                // Als de id niet hetzelfde is als mijn id, dan = andere snake de vijand
+                // Als de id niet hetzelfde is als mijn id, dan is dit een andere snake
                 if (!snakeId.equals(myId)) {
+                    amountOfOtherSnakes++;
                     System.out.println("Andere snake gevonden: " + snakeName);
                 } else {
                     System.out.println("Dit ben ik zelf");
                 }
             }
-
-            return Response.ok(Map.of(
-                    "myId", myId,
-                    "amountOfSnakes", amountOfSnakes,
-                    "amountOfOtherSnakes", amountOfOtherSnakes
-            )).build();
         }
-        return null;
+
+        return Response.ok(Map.of(
+                "myId", myId,
+                "amountOfSnakes", amountOfSnakes,
+                "amountOfOtherSnakes", amountOfOtherSnakes
+        )).build();
     }
+
+
 }
