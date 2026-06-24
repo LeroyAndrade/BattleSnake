@@ -9,6 +9,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 import java.util.Map;
 
 @Path("/")
@@ -61,8 +62,11 @@ public class BattlesnakeResource {
         int myX = (int) head.get("x");
         int myY = (int) head.get("y");
 
+
+        List<Map<String, Object>> myBody = (List<Map<String, Object>>) you.get("body");
+
         Game game = new Game();
-        String move = game.chooseMove(myX, myY, boardWidth, boardHeight);
+        String move = game.chooseMove(myX, myY, boardWidth, boardHeight, myBody);
 
         System.out.println("Mijn hoofd x = " + myX);
         System.out.println("Mijn hoofd y = " + myY);
