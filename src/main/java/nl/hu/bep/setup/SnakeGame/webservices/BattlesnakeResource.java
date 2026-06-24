@@ -192,10 +192,12 @@ public class BattlesnakeResource {
                 }
             }
 
-        return Response.ok(Map.of(
-                "myId", myId,
-                "amountOfSnakes", amountOfSnakes,
-                "amountOfOtherSnakes", amountOfOtherSnakes
-        )).build();
+            return Response.ok(Map.of(
+                    "myId", myId,
+                    "amountOfSnakes", amountOfSnakes,
+                    "amountOfOtherSnakes", amountOfOtherSnakes
+            )).build();
+        }
+        return null;
     }
 }
