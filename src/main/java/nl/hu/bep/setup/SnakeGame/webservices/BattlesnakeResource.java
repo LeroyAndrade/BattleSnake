@@ -52,6 +52,16 @@ public class BattlesnakeResource {
                     .build();
         }
 
+        Map<String, Object> gameMap = (Map<String, Object>) body.get("game");
+        String gameId = (String) gameMap.get("id");
+        String map = (String) gameMap.get("map");
+        int timeout = (int) gameMap.get("timeout");
+
+//        tonen data
+        System.out.println("Game id = " + gameId);
+        System.out.println("Map = " + map);
+        System.out.println("Timeout = " + timeout);
+
         Map<String, Object> board = (Map<String, Object>) body.get("board");
         Map<String, Object> you = (Map<String, Object>) body.get("you");
         Map<String, Object> head = (Map<String, Object>) you.get("head");
@@ -65,8 +75,8 @@ public class BattlesnakeResource {
 
         List<Map<String, Object>> myBody = (List<Map<String, Object>>) you.get("body");
 
-        Game game = new Game();
-        String move = game.chooseMove(myX, myY, boardWidth, boardHeight, myBody);
+        Game gameLogic = new Game();
+        String move = gameLogic.chooseMove(myX, myY, boardWidth, boardHeight, myBody);
 
         System.out.println("Mijn hoofd x = " + myX);
         System.out.println("Mijn hoofd y = " + myY);
