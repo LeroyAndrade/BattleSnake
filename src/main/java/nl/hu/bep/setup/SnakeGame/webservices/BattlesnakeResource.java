@@ -107,6 +107,9 @@ public class BattlesnakeResource {
         // Game gebruikt myId om mijn eigen snake over te slaan bij enemy checks.
         List<Map<String, Object>> allSnakes = (List<Map<String, Object>>) board.get("snakes");
 
+        // Food op het bord ophalen
+        List<Map<String, Object>> food = (List<Map<String, Object>>) board.get("food");
+
         // Even printen om te zien welke snake van mij is en welke snake een enemy is.
         System.out.println("Mijn id = " + myId);
 
@@ -132,7 +135,8 @@ public class BattlesnakeResource {
                 boardHeight,
                 myBody,
                 allSnakes,
-                myId
+                myId,
+                food
         );
 
         System.out.println("Mijn hoofd x = " + myX);

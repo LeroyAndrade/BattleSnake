@@ -7,14 +7,13 @@ import java.util.ArrayList;
 
 public class Game {
 
-    public String chooseMove(
-            int myX,
+    public String chooseMove( int myX,
             int myY,
             int boardWidth,
             int boardHeight,
             List<Map<String, Object>> myBody,
             List<Map<String, Object>> allSnakes,
-            String myId) {
+            String myId,  List<Map<String, Object>> food) {
 
         // Ik maak een Board object aan, zodat ik kan checken of ik niet tegen de muur ga
         Board board = new Board(boardWidth, boardHeight);
