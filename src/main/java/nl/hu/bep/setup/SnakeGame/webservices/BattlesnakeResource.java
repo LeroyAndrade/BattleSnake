@@ -5,7 +5,7 @@
 package nl.hu.bep.setup.SnakeGame.webservices;
 
 import nl.hu.bep.setup.SnakeGame.Model.Game;
-
+import nl.hu.bep.setup.SnakeGame.Model.MyThread;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -142,6 +142,10 @@ public class BattlesnakeResource {
         System.out.println("Mijn hoofd x = " + myX);
         System.out.println("Mijn hoofd y = " + myY);
         System.out.println("Gekozen move = " + move);
+
+// Start een aparte thread voor logging
+        MyThread mt1 = new MyThread("Thread log: gekozen move = " + move);
+        mt1.start();
 
         return Response.ok(Map.of("move", move)).build();
     }
