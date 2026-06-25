@@ -1,5 +1,7 @@
 // https://docs.battlesnake.com/api/webhooks
-
+// GET /restservices/snake
+// PATCH /restservices/snake
+//  info() straks niet meer hardcoded color/head/tail teruggeven, maar uit SnakeSettings.
 package nl.hu.bep.setup.SnakeGame.webservices;
 
 import nl.hu.bep.setup.SnakeGame.Model.Game;
