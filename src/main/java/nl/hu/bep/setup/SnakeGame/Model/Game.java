@@ -7,13 +7,15 @@ import java.util.ArrayList;
 
 public class Game {
 
-    public String chooseMove( int myX,
+    public String chooseMove(
+            int myX,
             int myY,
             int boardWidth,
             int boardHeight,
             List<Map<String, Object>> myBody,
             List<Map<String, Object>> allSnakes,
-            String myId,  List<Map<String, Object>> food) {
+            String myId,
+            List<Map<String, Object>> food) {
 
         // Ik maak een Board object aan, zodat ik kan checken of ik niet tegen de muur ga
         Board board = new Board(boardWidth, boardHeight);
@@ -43,7 +45,6 @@ public class Game {
         System.out.println("downSafe = " + downSafe);
         System.out.println("leftSafe = " + leftSafe);
 
-
         // Ik stop alle veilige moves in een lijst
         List<String> safeMoves = new ArrayList<>();
 
@@ -64,8 +65,15 @@ public class Game {
             safeMoves.add("left");
         }
 
-        // Als er veilige moves zijn, kies ik random uit alleen veilige moves
+        // Als er veilige moves zijn, probeer ik eerst richting food te gaan
         if (!safeMoves.isEmpty()) {
+            String foodMove = chooseMoveToFood(myX, myY, food, safeMoves);
+
+            if (foodMove != null) {
+                return foodMove;
+            }
+
+            // Als richting food niet veilig kan, kies ik random uit alleen veilige moves
             Random random = new Random();
             int randomIndex = random.nextInt(safeMoves.size());
 
@@ -78,6 +86,68 @@ public class Game {
         int randomIndex = random.nextInt(moves.length);
 
         return moves[randomIndex];
+    }
+
+    private String chooseMoveToFood(
+            int myX,
+            int myY,
+            List<Map<String, Object>> food,
+            List<String> safeMoves) {
+
+        // Als er geen food is, kan ik ook niet naar food toe
+        if (food == null || food.isEmpty()) {
+            return null;
+        }
+
+        Map<String, Object> closestFood = null;
+        int closestDistance = 9999;
+
+        // Ik zoek de dichtstbijzijnde food
+        for (Map<String, Object> foodItem : food) {
+            int foodX = (int) foodItem.get("x");
+            int foodY = (int) foodItem.get("y");
+
+            // Afstand zonder schuine stappen
+            int distance = Math.abs(foodX - myX) + Math.abs(foodY - myY);
+
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closestFood = foodItem;
+            }
+        }
+
+        if (closestFood == null) {
+            return null;
+        }
+
+        int foodX = (int) closestFood.get("x");
+        int foodY = (int) closestFood.get("y");
+
+        System.out.println("Dichtstbijzijnde food x = " + foodX);
+        System.out.println("Dichtstbijzijnde food y = " + foodY);
+
+        // Als food rechts van mij ligt en right veilig is, ga ik right
+        if (foodX > myX && safeMoves.contains("right")) {
+            return "right";
+        }
+
+        // Als food links van mij ligt en left veilig is, ga ik left
+        if (foodX < myX && safeMoves.contains("left")) {
+            return "left";
+        }
+
+        // Als food boven mij ligt en up veilig is, ga ik up
+        if (foodY > myY && safeMoves.contains("up")) {
+            return "up";
+        }
+
+        // Als food onder mij ligt en down veilig is, ga ik down
+        if (foodY < myY && safeMoves.contains("down")) {
+            return "down";
+        }
+
+        // Richting food is niet veilig
+        return null;
     }
 
     private boolean hitsOwnBody(int newX, int newY, List<Map<String, Object>> myBody) {
@@ -130,8 +200,8 @@ public class Game {
                 int bodyX = (int) bodyPart.get("x");
                 int bodyY = (int) bodyPart.get("y");
 
-                // Als mijn nieuwe plek hetzelfde is als een enemy body stukje,
-                // dan bots ik tegen een andere snake
+                // Als ik mijn nieuwe plek hetzelfde is als een enemy body stukje,
+                // dan bots ik dus tegen een andere snake
                 if (newX == bodyX && newY == bodyY) {
                     return true;
                 }
