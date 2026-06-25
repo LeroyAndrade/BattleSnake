@@ -3,6 +3,7 @@ package nl.hu.bep.setup.SnakeGame.Model;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.ArrayList;
 
 public class Game {
 
@@ -43,21 +44,33 @@ public class Game {
         System.out.println("downSafe = " + downSafe);
         System.out.println("leftSafe = " + leftSafe);
 
-        // Ik kies nu gewoon de eerste veilige richting
+
+        // Ik stop alle veilige moves in een lijst
+        List<String> safeMoves = new ArrayList<>();
+
+        // de eerste veilige richting
         if (upSafe) {
-            return "up";
+            safeMoves.add("up");
         }
 
         if (rightSafe) {
-            return "right";
+            safeMoves.add("right");
         }
 
         if (downSafe) {
-            return "down";
+            safeMoves.add("down");
         }
 
         if (leftSafe) {
-            return "left";
+            safeMoves.add("left");
+        }
+
+        // Als er veilige moves zijn, kies ik random uit alleen veilige moves
+        if (!safeMoves.isEmpty()) {
+            Random random = new Random();
+            int randomIndex = random.nextInt(safeMoves.size());
+
+            return safeMoves.get(randomIndex);
         }
 
         // Als niks veilig is, moet ik toch iets teruggeven
