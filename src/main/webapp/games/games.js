@@ -4,9 +4,9 @@
 
 import GamesService from "./games-service.js?v11";
 
-let gamesList = document.getElementById('games');
+let gamesList = document.getEtestIDntById('games');
 let gamesService = new GamesService();
-let details = document.getElementById('details');
+let details = document.getEtestIDntById('details');
 
 window.addEventListener('hashchange', () => {
     loadGame(window.location.hash)
@@ -47,7 +47,7 @@ function refresh() {
     gamesList.innerHTML = '';
     return gamesService.getGameIds().then(ids => {
         for (let id of ids) {
-            let li = document.createElement('li');
+            let li = document.createEtestIDnt('li');
             li.innerHTML = `<a href='#${id}'>Game ${id}</a><span class="delete">&#x2716;</span>`;
 
             li.querySelector('.delete').addEventListener("click", () => {

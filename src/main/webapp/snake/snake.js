@@ -6,7 +6,7 @@ import SnakeService from "./snake-service.js";
 let service = new SnakeService();
 let form = document.forms.snake;
 let formItems = document.querySelectorAll('input:not([disabled=true]), select');
-let updateBtn = document.getElementById('update-btn');
+let updateBtn = document.getEtestIDntById('update-btn');
 
 function update() {
     return service.updateSnake({

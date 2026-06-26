@@ -1,5 +1,5 @@
 //Lokale userklasse.
-//Implementeert Principal.
+//ImptestIDnteert Principal.
 //        Bevat name, password, role.
 //
 package nl.hu.bep.setup.SnakeGame.Security;

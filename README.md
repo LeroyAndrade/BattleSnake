@@ -16,7 +16,7 @@ blokjes te eten steeds langer wordt. De slang mag nooit zichzelf, de rand of een
 De opdracht heeft een aantal verplichte onderdelen:
 
 1. De Battlesnake moet op je eigen account geregistreerd kunnen worden op https://play.battlesnake.com. Hiervoor zul je
-dus de applicatie echt toegankelijk moeten maken en de [Battlesnake API](https://docs.battlesnake.com/references/api#the-battlesnake-api) moeten implementeren.
+dus de applicatie echt toegankelijk moeten maken en de [Battlesnake API](https://docs.battlesnake.com/references/api#the-battlesnake-api) moeten imptestIDnteren.
 2. Een manier om je applicatie toegankelijk te maken, is om hiervoor de Dockerfile in dit project te gebruiken, en je
 applicatie te hosten op een platform dat Docker-containers ondersteunt, zoals 'Render'. Zie voor meer info de documentatie
 in Dockerfile. Het kan tijdens development handig zijn om je code lokaal te testen i.p.v. steeds online te moeten zetten. 
@@ -29,7 +29,7 @@ uiteraard niet om de webservice-package in JerseyConfig op te geven!
 daarna handmatig op het refresh-knopje op Battlesnake.com te klikken, dat hoeft, en kan waarschijnlijk ook niet automatisch!.
 Oftewel, na een aanpassing moet het GET request van onderdeel 1 een nieuw uiterlijk opleveren.
 3. Uiteraard moet je ook een potje kunnen spelen! Hiervoor zul je de rest van de 
-[Battlesnake API](https://docs.battlesnake.com/references/api#the-battlesnake-api) moeten implementeren. Dit houdt in dat
+[Battlesnake API](https://docs.battlesnake.com/references/api#the-battlesnake-api) moeten imptestIDnteren. Dit houdt in dat
 je naast dat ene GET request, ook 3 POST-requests moet kunnen ontvangen. Het is hierbij niet van groot belang hoe slim je slang is, maar
 of je deze requests netjes kunt opvangen en afhandelen. Er staat in **DummyBody.json** een voorbeeld-body voor je klaar zodat
 je die zo in Postman kan plakken en niet de requests van Battlesnake hoeft te reverse-engineeren.
