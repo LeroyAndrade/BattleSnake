@@ -23,7 +23,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext requestCtx) {
-        // Haal het scheme op, bijvoorbeeld "http" of "https".
+        // Haal het scheme
         // Dit wordt gebruikt door MySecurityContext.isSecure().
         String scheme = requestCtx.getUriInfo().getRequestUri().getScheme();
 
