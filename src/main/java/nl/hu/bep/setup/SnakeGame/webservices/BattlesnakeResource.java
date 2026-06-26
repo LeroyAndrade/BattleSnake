@@ -1,13 +1,14 @@
 // https://docs.battlesnake.com/api/webhooks
 // GET /restservices/snake
 // PATCH /restservices/snake
-//  info() straks niet meer hardcoded color/head/tail teruggeven, maar uit SnakeSettings.
+// info() geeft color/head/tail terug uit SnakeSettings.
+
 package nl.hu.bep.setup.SnakeGame.webservices;
 
 import nl.hu.bep.setup.SnakeGame.Model.Game;
 import nl.hu.bep.setup.SnakeGame.Model.SnakeSettings;
 import nl.hu.bep.setup.SnakeGame.persistence.PersistenceManager;
-import nl.hu.bep.setup.SnakeGame.Model.MyThread;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -17,8 +18,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Map;
-import nl.hu.bep.setup.SnakeGame.Model.SnakeSettings;
-import nl.hu.bep.setup.SnakeGame.persistence.PersistenceManager;
 
 @Path("/")
 public class BattlesnakeResource {
@@ -49,6 +48,18 @@ public class BattlesnakeResource {
         // De response zelf wordt hier niet echt gebruikt.
         System.out.println("START body = " + body);
 
+        if (body != null) {
+            Map<String, Object> gameMap = (Map<String, Object>) body.get("game");
+
+            if (gameMap != null) {
+                String gameId = (String) gameMap.get("id");
+
+                // Nieuw potje opslaan
+                PersistenceManager.getAppDataOpslag().addGame(gameId);
+                PersistenceManager.saveAppDataToFile();
+            }
+        }
+
         return Response.ok(Map.of()).build();
     }
 
@@ -64,17 +75,14 @@ public class BattlesnakeResource {
                     .build();
         }
 
+        String gameId = null;
+
         // Algemene game info uitlezen.
         // Dit gebruik ik nu vooral voor logging/debugging.
         Map<String, Object> gameMap = (Map<String, Object>) body.get("game");
 
         if (gameMap != null) {
-            String gameId = (String) gameMap.get("id");
-
-//            opslaan
-            PersistenceManager.getAppDataOpslag().addGame(gameId);
-            PersistenceManager.saveAppDataToFile();
-
+            gameId = (String) gameMap.get("id");
             String map = (String) gameMap.get("map");
             Object timeout = gameMap.get("timeout");
 
@@ -118,7 +126,7 @@ public class BattlesnakeResource {
         // Game gebruikt myId om mijn eigen snake over te slaan bij enemy checks.
         List<Map<String, Object>> allSnakes = (List<Map<String, Object>>) board.get("snakes");
 
-        // Food op het bord ophalen
+        // Food op het bord ophalen.
         List<Map<String, Object>> food = (List<Map<String, Object>>) board.get("food");
 
         // Even printen om te zien welke snake van mij is en welke snake een enemy is.
@@ -154,9 +162,11 @@ public class BattlesnakeResource {
         System.out.println("Mijn hoofd y = " + myY);
         System.out.println("Gekozen move = " + move);
 
-// Start een aparte thread voor logging
-        MyThread mt1 = new MyThread("Thread log: gekozen move = " + move);
-        mt1.start();
+        if (gameId != null) {
+            // Move opslaan bij dit potje
+            PersistenceManager.getAppDataOpslag().addMove(gameId, move);
+            PersistenceManager.saveAppDataToFile();
+        }
 
         return Response.ok(Map.of("move", move)).build();
     }
@@ -170,11 +180,23 @@ public class BattlesnakeResource {
         // De response zelf wordt hier niet echt gebruikt.
         System.out.println("END body = " + body);
 
+        if (body != null) {
+            Map<String, Object> gameMap = (Map<String, Object>) body.get("game");
+
+            if (gameMap != null) {
+                String gameId = (String) gameMap.get("id");
+
+                // Potje afsluiten
+                PersistenceManager.getAppDataOpslag().finishGame(gameId);
+                PersistenceManager.saveAppDataToFile();
+            }
+        }
+
         return Response.ok(Map.of()).build();
     }
 
     // Check alle snakes via Bruno.
-// Dit endpoint wordt niet door Battlesnake zelf gebruikt.
+    // Dit endpoint wordt niet door Battlesnake zelf gebruikt.
     @POST
     @Path("debug/snakes")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -228,6 +250,4 @@ public class BattlesnakeResource {
                 "amountOfOtherSnakes", amountOfOtherSnakes
         )).build();
     }
-
-
 }
