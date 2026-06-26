@@ -88,11 +88,21 @@ public class PersistenceManager implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+        // Deze methode wordt uitgevoerd wanneer de applicatie opstart.
         System.out.println("App aan het opstarten");
+        System.out.println("Data wordt ingeladen");
+
+        // Bij het opstarten probeer ik de AppDataOpslag uit het bestand te laden.
+        PersistenceManager.loadAppDataFromFile();
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
+        // Deze methode wordt uitgevoerd wanneer de applicatie stopt.
         System.out.println("App aan het stoppen");
+        System.out.println("Data wordt opgeslagen");
+
+        // Bij het stoppen sla ik de huidige AppDataOpslag op in het bestand.
+        PersistenceManager.saveAppDataToFile();
     }
 }
