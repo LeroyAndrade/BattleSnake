@@ -102,4 +102,48 @@ public class GameTest {
         assertNotEquals("up", move);
     }
 
+    @Test
+    public void slangGaatNietTegenEigenBody() {
+        Game game = new Game();
+
+        // Mijn hoofd staat op x=1, y=1
+        int myX = 1;
+        int myY = 1;
+
+        // Up, right en down zijn geblokkeerd door mijn eigen body.
+        // Daardoor blijft alleen left over.
+        List<Map<String, Object>> myBody = List.of(
+                Map.of("x", 1, "y", 1),
+                Map.of("x", 1, "y", 2),
+                Map.of("x", 2, "y", 1),
+                Map.of("x", 1, "y", 0)
+        );
+
+        // Ik geef mijn eigen snake mee in allSnakes
+        List<Map<String, Object>> allSnakes = List.of(
+                Map.of(
+                        "id", "testID",
+                        "body", myBody
+                )
+        );
+
+        // Food staat ergens anders, maar de slang mag niet door zijn body heen
+        List<Map<String, Object>> food = List.of(
+                Map.of("x", 5, "y", 5)
+        );
+
+        String move = game.chooseMove(
+                myX,
+                myY,
+                11,
+                11,
+                myBody,
+                allSnakes,
+                "testID",
+                food
+        );
+
+        // Omdat up/right/down geblokkeerd zijn, verwacht ik left
+        assertEquals("left", move);
+    }
 }
