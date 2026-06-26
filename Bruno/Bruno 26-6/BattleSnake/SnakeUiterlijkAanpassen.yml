@@ -1,0 +1,23 @@
+info:
+  name: SnakeUiterlijkAanpassen
+  type: http
+  seq: 7
+
+http:
+  method: PATCH
+  url: http://localhost:8082/restservices/snake
+  body:
+    type: json
+    data: |-
+      {
+        "color": "#00ff00",
+        "head": "green",
+        "tail": "red"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

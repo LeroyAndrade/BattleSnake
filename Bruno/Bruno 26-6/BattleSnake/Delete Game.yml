@@ -1,0 +1,23 @@
+info:
+  name: Delete Game
+  type: http
+  seq: 9
+
+http:
+  method: DELETE
+  url: http://localhost:8082/restservices/games/51
+  body:
+    type: json
+    data: |-
+      {
+        "gameid": 51
+      }
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsZXJveSIsImV4cCI6MTc4MjQ0ODk2Miwicm9sZSI6InVzZXIifQ.Nrh8AV9g0XlZh04EVcktHFmjvcClsWowVAu_WMnvQ89TXpbFZfB0RyK9i3OlJzzkW4il4U7JDptro3BJs2B9_A
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

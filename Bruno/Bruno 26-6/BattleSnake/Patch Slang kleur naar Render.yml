@@ -1,0 +1,26 @@
+info:
+  name: Patch Slang kleur naar Render
+  type: http
+  seq: 10
+
+http:
+  method: PATCH
+  url: https://battlesnake-nm77.onrender.com/restservices/snake
+  body:
+    type: json
+    data: |-
+      //   "color": "#00ff00",
+      {
+        "color": "#000000",
+        "head": "default",
+        "tail": "default"
+      }
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJMZXJveV9BbmRyYWRlIiwiZXhwIjoxNzgyNDU0NzMyLCJyb2xlIjoiYWRtaW4ifQ.g3VHTp_lPdslfkEFc8x74aleeL6jsCyLFnErksHzu5JdORNLSChcpSp2tWIvYdvki4l8wGw5fYPGMi2EfBh8Gw
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
