@@ -65,4 +65,41 @@ public class GameTest {
         assertEquals("right", move);
     }
 
+    @Test
+    public void slangGaatNietDoorDeMuur() {
+        Game game = new Game();
+
+        // Mijn hoofd staat helemaal bovenaan het bord
+        // Bij een bord van 11 hoog zijn geldige y-waarden 0 t/m 10
+        int myX = 5;
+        int myY = 10;
+
+        // Mijn body zit onder mijn hoofd
+        List<Map<String, Object>> myBody = List.of(
+                Map.of("x", 5, "y", 10),
+                Map.of("x", 5, "y", 9),
+                Map.of("x", 5, "y", 8)
+        );
+
+        // Food staat boven de muur.
+        // De slang wil misschien naar food, maar up zou buiten het bord zijn.
+        List<Map<String, Object>> food = List.of(
+                Map.of("x", 5, "y", 12)
+        );
+
+        String move = game.chooseMove(
+                myX,
+                myY,
+                11,
+                11,
+                myBody,
+                null,
+                "testID",
+                food
+        );
+
+        // De slang mag 'UP' niet up kiezen, want dan gaat hij door de muur
+        assertNotEquals("up", move);
+    }
+
 }
