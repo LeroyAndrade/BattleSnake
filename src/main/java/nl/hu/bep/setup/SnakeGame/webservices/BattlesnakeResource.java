@@ -5,7 +5,7 @@
 package nl.hu.bep.setup.SnakeGame.webservices;
 
 import nl.hu.bep.setup.SnakeGame.Model.Game;
-import nl.hu.bep.setup.SnakeGame.Model.MyThread;
+//import nl.hu.bep.setup.SnakeGame.Model.MyThread;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -15,6 +15,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Map;
+import nl.hu.bep.setup.SnakeGame.Model.SnakeSettings;
+import nl.hu.bep.setup.SnakeGame.persistence.PersistenceManager;
 
 @Path("/")
 public class BattlesnakeResource {
@@ -24,13 +26,15 @@ public class BattlesnakeResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response info() {
         // Deze response gebruikt Battlesnake om de API-versie en de snake layout te controleren.
+        SnakeSettings settings = PersistenceManager.getAppDataOpslag().getSnakeSettings();
+
         return Response.ok(Map.of(
                 "apiversion", "1",
-                "author", "LeroyAndrade",
-                "color", "#F1F1F1",
-                "head", "default",
-                "tail", "default",
-                "version", "000.000.001-beta"
+                "author", settings.getAuthor(),
+                "color", settings.getColor(),
+                "head", settings.getHead(),
+                "tail", settings.getTail(),
+                "version", settings.getVersion()
         )).build();
     }
 

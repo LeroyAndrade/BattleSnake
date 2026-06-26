@@ -4,6 +4,7 @@
 package nl.hu.bep.setup.SnakeGame.webservices;
 
 import nl.hu.bep.setup.SnakeGame.Model.SnakeSettings;
+import nl.hu.bep.setup.SnakeGame.persistence.PersistenceManager;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -20,8 +21,7 @@ public class SnakeResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getSnake() {
-        // Huidige snake metadata teruggeven aan snake.html
-        return Response.ok(SnakeSettings.getCurrent()).build();
+        return Response.ok(PersistenceManager.getAppDataOpslag().getSnakeSettings()).build();
     }
 
     @PATCH
@@ -34,9 +34,8 @@ public class SnakeResource {
                     .build();
         }
 
-        SnakeSettings settings = SnakeSettings.getCurrent();
+        SnakeSettings settings = PersistenceManager.getAppDataOpslag().getSnakeSettings();
 
-        // Alleen aanpassen als het veld is meegestuurd
         if (body.containsKey("color")) {
             settings.setColor(body.get("color"));
         }
@@ -48,6 +47,12 @@ public class SnakeResource {
         if (body.containsKey("tail")) {
             settings.setTail(body.get("tail"));
         }
+
+        if (body.containsKey("version")) {
+            settings.setVersion(body.get("version"));
+        }
+
+        PersistenceManager.saveAppDataToFile();
 
         return Response.ok(settings).build();
     }
