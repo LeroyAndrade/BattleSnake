@@ -146,4 +146,55 @@ public class GameTest {
         // Omdat up/right/down geblokkeerd zijn, verwacht ik left
         assertEquals("left", move);
     }
+
+    @Test
+    public void slangGaatNietTegenEnemyBody() {
+        Game game = new Game();
+
+        // Mijn hoofd staat op x=5, y=5
+        int myX = 5;
+        int myY = 5;
+
+        // Mijn eigen body blokkeert down
+        List<Map<String, Object>> myBody = List.of(
+                Map.of("x", 5, "y", 5),
+                Map.of("x", 5, "y", 4)
+        );
+
+        // Enemy body staat rechts van mij op x=6, y=5
+        List<Map<String, Object>> enemyBody = List.of(
+                Map.of("x", 6, "y", 5)
+        );
+
+        // allSnakes bevat mijn snake en een enemy snake
+        List<Map<String, Object>> allSnakes = List.of(
+                Map.of(
+                        "id", "testID",
+                        "body", myBody
+                ),
+                Map.of(
+                        "id", "enemyID",
+                        "body", enemyBody
+                )
+        );
+
+        // Food staat rechts, maar rechts is geblokkeerd door enemy body
+        List<Map<String, Object>> food = List.of(
+                Map.of("x", 8, "y", 5)
+        );
+
+        String move = game.chooseMove(
+                myX,
+                myY,
+                11,
+                11,
+                myBody,
+                allSnakes,
+                "testID",
+                food
+        );
+
+        // De slang mag niet right kiezen, want daar zit enemy body
+        assertNotEquals("right", move);
+    }
 }
