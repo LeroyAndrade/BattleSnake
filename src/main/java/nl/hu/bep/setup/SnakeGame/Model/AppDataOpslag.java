@@ -37,4 +37,32 @@ public class AppDataOpslag implements Serializable {
         }
     }
 
+    public void addMove(String gameId, String move) {
+        GameRecord game = getGameById(gameId);
+
+        if (game == null) {
+            game = new GameRecord(gameId);
+            games.add(game);
+        }
+
+        game.addMove(move);
+    }
+
+    public void finishGame(String gameId) {
+        GameRecord game = getGameById(gameId);
+
+        if (game != null) {
+            game.finish();
+        }
+    }
+
+    public boolean removeGame(String gameId) {
+        GameRecord game = getGameById(gameId);
+
+        if (game != null) {
+            return games.remove(game);
+        }
+
+        return false;
+    }
 }
