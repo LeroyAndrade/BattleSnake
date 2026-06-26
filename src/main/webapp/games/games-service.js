@@ -1,24 +1,38 @@
 export default class GamesService {
     async getGameIds() {
-        //TODO: fetch alle games van de de service, idealiter zonder alle details
-        return Promise.resolve(['dummy-1', 'dummy-2']);
+        // fetch alle games van de service, maar geef alleen de ids terug
+        const response = await fetch("../restservices/games");
+
+        if (!response.ok) {
+            throw new Error("Games ophalen mislukt");
+        }
+
+        const games = await response.json();
+        // backend geeft volledige game objecten terug roep: gameID op
+        return games.map(game => game.gameId);
     }
 
     async getReplay(gameId) {
-        //TODO: fetch de details van een enkele game. Let wel, het staat vrij wat voor informatie je precies toont
-        //zolang je maar laat zien dat je data kunt opslaan over meerdere zetten heen. Dus deze dummy-data is puur
-        //ter illustratie.
-        return Promise.resolve({
-            id: 'altijd-dezelfde',
-            aantalBeurten: 42,
-            meestBezochtePlek: { x: 3, y: 5},
-            redenEind: 'muur-geraakt',
-            aantalBochtjesLinksaf: 27
-        });
+        // fetch  details van een game
+        const response = await fetch("../restservices/games/" + encodeURIComponent(gameId));
+
+        if (!response.ok) {
+            throw new Error("Game details ophalen mislukt");
+        }
+
+        return await response.json();
     }
 
     async removeReplay(gameId) {
-        //TODO: gebruik fetch om een enkele game (bij de server) te deleten
-        return Promise.resolve();
+        //fetch om  game bij de server te deleten
+        const response = await fetch("../restservices/games/" + encodeURIComponent(gameId), {
+            method: "DELETE"
+        });
+
+        if (!response.ok) {
+            throw new Error("Game verwijderen mislukt");
+        }
+
+        return await response.json();
     }
 }
