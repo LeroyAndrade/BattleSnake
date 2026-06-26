@@ -2,6 +2,7 @@ package nl.hu.bep.setup.SnakeGame.webservices;
 
 import nl.hu.bep.setup.SnakeGame.Model.SnakeSettings;
 import nl.hu.bep.setup.SnakeGame.persistence.PersistenceManager;
+import javax.annotation.security.RolesAllowed;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -22,6 +23,7 @@ public class SnakeResource {
     }
 
     @PATCH
+    @RolesAllowed({"user", "admin"})
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateSnake(Map<String, String> body) {

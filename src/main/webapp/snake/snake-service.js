@@ -1,18 +1,28 @@
 export default class SnakeService {
     async getSnake() {
-        //TODO: haal deze data van de server
-        return Promise.resolve({
-            apiversion: "1",
-            author: "de dapper student",
-            color: "#ff0000",
-            head: "default",
-            tail: "default",
-            version: "0.1"
-        });
+        const response = await fetch("/restservices/snake");
+
+        if (!response.ok) {
+            throw new Error("Snake ophalen mislukt");
+        }
+
+        return await response.json();
     }
 
-    async updateSnake(updatedSnake) {
-        //TODO: update je slang aan de server-kant met de nieuwe gegevens
-        return Promise.resolve();
+    async updateSnake(snake) {
+        const response = await fetch("/restservices/snake", {
+            method: "PATCH",
+            body: JSON.stringify(snake),
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + window.sessionStorage.getItem("myJWT")
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Snake aanpassen mislukt");
+        }
+
+        return await response.json();
     }
 }

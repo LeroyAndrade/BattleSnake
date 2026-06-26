@@ -3,6 +3,7 @@ package nl.hu.bep.setup.SnakeGame.webservices;
 import nl.hu.bep.setup.SnakeGame.Model.GameRecord;
 import nl.hu.bep.setup.SnakeGame.persistence.PersistenceManager;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -25,6 +26,7 @@ public class GamesResource {
     }
 
     @GET
+    @RolesAllowed({"user", "admin"})
     @Path("{gameId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getGame(@PathParam("gameId") String gameId) {
@@ -40,6 +42,7 @@ public class GamesResource {
     }
 
     @DELETE
+    @RolesAllowed({"user", "admin"})
     @Path("{gameId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteGame(@PathParam("gameId") String gameId) {
