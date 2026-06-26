@@ -37,27 +37,51 @@ public class PersistenceManager implements ServletContextListener {
             // Als het bestand niet bestaat, hoeft er niks ingeladen te worden.
             if (Files.exists(BATTLESNAKE_STORAGE)) {
 
-                // Ik open een InputStream naar het bestand.
                 InputStream is = Files.newInputStream(BATTLESNAKE_STORAGE);
-
-                // Met ObjectInputStream kan ik een opgeslagen Java-object teruglezen.
                 ObjectInputStream ois = new ObjectInputStream(is);
 
-                // Ik lees het object uit het bestand en cast het terug naar AppDataOpslag.
                 AppDataOpslag loadedAppDataOpslag = (AppDataOpslag) ois.readObject();
 
-                // Ik zet de ingeladen AppDataOpslag als de huidige data.
                 PersistenceManager.setAppDataOpslag(loadedAppDataOpslag);
 
-                // Ik sluit de streams weer.
                 ois.close();
                 is.close();
 
                 System.out.println("AppDataOpslag is ingeladen uit bestand.");
             }
         } catch (Exception e) {
-            // Als het laden niet lukt, print ik de foutmelding.
-            // De standaard AppDataOpslag blijft dan gewoon gebruikt worden.
+            e.printStackTrace();
+        }
+    }
+
+    public static synchronized void saveAppDataToFile() {
+        try {
+            // Ik haal de map op waarin battlesnake-data.obj moet komen te staan.
+            Path directory = BATTLESNAKE_STORAGE.getParent();
+
+            // Als de map nog niet bestaat, maak ik deze eerst aan.
+            if (!Files.exists(directory)) {
+                Files.createDirectories(directory);
+            }
+
+            // Ik open een OutputStream naar battlesnake-data.obj.
+            OutputStream os = Files.newOutputStream(BATTLESNAKE_STORAGE);
+
+            // Met ObjectOutputStream kan ik een compleet Java-object opslaan.
+            ObjectOutputStream oos = new ObjectOutputStream(os);
+
+            // Ik haal de huidige AppDataOpslag op.
+            AppDataOpslag appDataOpslagToSave = PersistenceManager.getAppDataOpslag();
+
+            // Ik schrijf de huidige AppDataOpslag weg naar het bestand.
+            oos.writeObject(appDataOpslagToSave);
+
+            // Ik sluit de streams weer.
+            oos.close();
+            os.close();
+
+            System.out.println("AppDataOpslag is opgeslagen in bestand.");
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
