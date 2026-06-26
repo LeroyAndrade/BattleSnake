@@ -17,4 +17,52 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class GameTest {
 
+    @Test
+    public void slangGaatRichtingFoodAlsDatVeiligIs() {
+        // Arrange: ik maak mijn Game object aan
+        Game game = new Game();
+
+        // Mijn hoofd staat op x=5, y=5
+        int myX = 5;
+        int myY = 5;
+
+        // Mijn body staat onder mijn hoofd
+        // Daardoor is rechts gewoon veilig
+        List<Map<String, Object>> myBody = List.of(
+                Map.of("x", 5, "y", 5),
+                Map.of("x", 5, "y", 4),
+                Map.of("x", 5, "y", 3)
+        );
+
+        // In allSnakes zet ik mijn eigen snake.
+        // De id is testID, zodat Game weet welke snake van mij is.
+        List<Map<String, Object>> allSnakes = List.of(
+                Map.of(
+                        "id", "testID",
+                        "body", myBody
+                )
+        );
+
+        // Food staat rechts van mij op x=8, y=5
+        // Dus als rechts veilig is, verwacht ik "right"
+        List<Map<String, Object>> food = List.of(
+                Map.of("x", 8, "y", 5)
+        );
+
+        // ik laat de game een move kiezen
+        String move = game.chooseMove(
+                myX,
+                myY,
+                11,
+                11,
+                myBody,
+                allSnakes,
+                "testID",
+                food
+        );
+
+        // de slang moet richting food gaan, dus right
+        assertEquals("right", move);
+    }
+
 }
