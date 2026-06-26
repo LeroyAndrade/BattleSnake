@@ -18,8 +18,8 @@ public class MyServletContextListener implements ServletContextListener {
 
         // Lokale users aanmaken bij het starten van de applicatie.
         // Dit is hetzelfde idee als lokaal testdata klaarzetten.
-        SnakeUser.addUser(new SnakeUser("leroy", "password123", "user"));
-        SnakeUser.addUser(new SnakeUser("admin", "admin123", "admin"));
+        SnakeUser.addUser(new SnakeUser("Leroy_Andrade", "password123", "admin"));
+        SnakeUser.addUser(new SnakeUser("Pietje_Puk", "user123", "user"));
 
         System.out.println("Snake users zijn aangemaakt");
     }

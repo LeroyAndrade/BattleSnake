@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 import java.util.Map;
 
 @Path("snake")
+
 public class SnakeResource {
 
     @GET
