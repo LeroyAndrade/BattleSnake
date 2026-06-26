@@ -5,7 +5,9 @@
 package nl.hu.bep.setup.SnakeGame.webservices;
 
 import nl.hu.bep.setup.SnakeGame.Model.Game;
-//import nl.hu.bep.setup.SnakeGame.Model.MyThread;
+import nl.hu.bep.setup.SnakeGame.Model.SnakeSettings;
+import nl.hu.bep.setup.SnakeGame.persistence.PersistenceManager;
+import nl.hu.bep.setup.SnakeGame.Model.MyThread;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -68,6 +70,11 @@ public class BattlesnakeResource {
 
         if (gameMap != null) {
             String gameId = (String) gameMap.get("id");
+
+//            opslaan
+            PersistenceManager.getAppDataOpslag().addGame(gameId);
+            PersistenceManager.saveAppDataToFile();
+
             String map = (String) gameMap.get("map");
             Object timeout = gameMap.get("timeout");
 
