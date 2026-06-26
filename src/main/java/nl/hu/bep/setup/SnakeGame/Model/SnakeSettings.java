@@ -11,30 +11,12 @@ public class SnakeSettings implements Serializable {
     private String tail;
     private String version;
 
-    private SnakeSettings current = new SnakeSettings();
-
     public SnakeSettings() {
         this.author = "LeroyAndrade";
         this.color = "#F1F1F1";
         this.head = "default";
         this.tail = "default";
         this.version = "000.000.001-beta";
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public void setHead(String head) {
-        this.head = head;
-    }
-
-    public void setTail(String tail) {
-        this.tail = tail;
-    }
-
-    public SnakeSettings getCurrent() {
-        return current;
     }
 
     public String getAuthor() {
@@ -55,5 +37,21 @@ public class SnakeSettings implements Serializable {
 
     public String getVersion() {
         return version;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public void setHead(String head) {
+        this.head = head;
+    }
+
+    public void setTail(String tail) {
+        this.tail = tail;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 }
